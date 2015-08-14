@@ -1,0 +1,151 @@
+<html>
+    <head>
+        <style rel="stylesheet" type="text/css">
+            body{
+                margin: 0 auto;
+                background-color: #202020  ;
+                color: white;
+            }
+            header{
+                line-height:100px;
+                background-color: #336699;
+                margin-top:-50px;
+                padding-top:0;
+                padding-bottom: -50px;
+            }
+            footer{
+                font-style: italic;
+                color: silver;
+                margin-top: 150px;
+                text-align: center;
+            }
+            h1{
+                font-family: "Lato, Helvetica, Arial, Verdana, sans-serif";
+                color: #FF9933;
+                text-align: center;
+                font-size: 60px;
+            }
+            h2{
+                color: teal;
+            }
+            label{
+                color:gray;
+            }
+            #new-comments{
+                clear: both;    
+                float:right;
+                border: solid #336699 1px;
+                border-radius: 10px;
+                margin-right: 5px;
+                padding: 5px;
+               /* background-color: #107788; */
+               background-image: 'http://www.hdwallpaperslove.com/wp-content/uploads/2015/02/PIP-Free-Digital-Background-Blue-Green-700W.jpg'
+            }
+            #new-comments input[type="text"]{
+                width: 60px;
+            }
+             #new-comments input[type="submit"]{
+                background-color: brown;
+                color: white;
+                height: 18.5px;
+                width: 72px;
+                margin-top: 2px;
+            }
+            
+            #new-state {
+                margin:0 auto;
+                float:right;
+                margin-right: 5px;
+                line-height: 20px;
+            }
+            #new-state input[type="text"]{
+                width: 200px;
+            }
+             #new-state input[type="submit"]{
+                background-color: #336699;
+                color: white;
+                height: 18.5px;
+                width: 72px;
+                margin-top: 2px;
+            }
+            a{
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+        <a href="https://left-right-umineneneko1.c9.io/states"><header>
+            <h1>Things</h1>
+        </header></a>
+        
+        <content>
+            <div id="new-state">
+                {% if error_message %} <p><strong>{{ error_message }}</strong></p> {% endif %}
+                <form action="/states/submit_state" method="post">
+                    {% csrf_token %}
+                    <input type="text" name="s"/>
+                    <input type="text" name="by" style="width:60px"/>
+                    <input type="submit" value="Sure?" />
+                </form><label>Once raised, you did care about this!</label>
+            </div>
+        </content>
+        
+        <content>
+            <br />
+            <div style="text-align:center">
+                {% if list %}
+                    <ol>
+                    {% for state in list %}
+                        <li style="clear:both; color: #336699">
+                            <div>
+                                <h2>{{ state.text }}</h2>
+                                <span style="margin-left:300px;">Published on {{state.pub_date}}</span>
+                            </div></li>
+                            <div style="clear:both;height:30px;">
+                                {% for comment in comments %}
+                                    {% if comment.state.id == state.id %}
+                                        {% if comment.side.text == "left" %}
+                                            <div style="color: maroon; width:50%">{{comment.text}} ({{comment.by}} - {{comment.pub_date}})</div><br/>
+                                        {% else %}
+                                            <div style="color:palegreen; width:50%; float:right">{{comment.text}} ({{comment.by}} -  {{comment.pub_date}})</div><br/>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor%}
+                            </div>
+                            <div id="new-comments">
+                                {% if error_message %} <p><strong>{{ error_message }}</strong></p> {% endif %}
+                               
+                                <form action="/states/submit_comment" method="post"> 
+                                <br />
+                                    {% csrf_token %}
+                                    <input type="hidden" name="id" value="{{state.id}}"/>
+                                    <input type="text" name="c"/>
+                                    
+                                    <select name="t">
+                                       <option value="1" selected>LEFT SIDE </option>
+                                       <option value="2"> RIGHT SIDE </option>
+                                    </select>
+                                    <br />
+                                    <input type="text" name="by"/>
+                                    <input type="submit" value="Really?" />
+                                </form>
+                                <label>Once decided, you can't turn it back!</label>
+                            </div>
+                    {% endfor %}
+                    </ol>
+                {% else %}
+                    <p>No States are available.</p>
+                {% endif %}
+            </div>
+            <div>
+                
+            </div>
+        </content>
+        
+        <footer>
+            <p></p>
+            <p>/admin: zxcvbnm6, <a href="https://ide.c9.io/umineneneko1/left_right">Cloud 9 IDE</a></p>
+            <p>Github: umineneneko@gmail.com, <b>Django Project</b> v 1.7 © 2015 All rights reversed</p>
+        </footer>
+    </body>
+</html>
