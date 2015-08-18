@@ -1,37 +1,36 @@
+# python-getting-started
 
-     ,-----.,--.                  ,--. ,---.   ,--.,------.  ,------.
-    '  .--./|  | ,---. ,--.,--. ,-|  || o   \  |  ||  .-.  \ |  .---'
-    |  |    |  || .-. ||  ||  |' .-. |`..'  |  |  ||  |  \  :|  `--, 
-    '  '--'\|  |' '-' ''  ''  '\ `-' | .'  /   |  ||  '--'  /|  `---.
-     `-----'`--' `---'  `----'  `---'  `--'    `--'`-------' `------'
-    ----------------------------------------------------------------- 
+A barebones Python app, which can easily be deployed to Heroku.
 
+This application support the [Getting Started with Python on Heroku](https://devcenter.heroku.com/articles/getting-started-with-python) article - check it out.
 
-Welcome to your Django project on Cloud9 IDE!
+## Running Locally
 
-Your Django project is already fully setup. Just click the "Run" button to start
-the application. On first run you will be asked to create an admin user. You can
-access your application from 'https://left-right-umineneneko1.c9.io/' and the admin page from 
-'https://left-right-umineneneko1.c9.io/admin'.
+Make sure you have Python [installed properly](http://install.python-guide.org).  Also, install the [Heroku Toolbelt](https://toolbelt.heroku.com/) and [Postgres](https://devcenter.heroku.com/articles/heroku-postgresql#local-setup).
 
-## Starting from the Terminal
+```sh
+$ git clone git@github.com:heroku/python-getting-started.git
+$ cd python-getting-started
+$ pip install -r requirements.txt
+$ createdb python_getting_started
+$ foreman run python manage.py migrate
+$ python manage.py collectstatic
+$ foreman start web
+```
 
-In case you want to run your Django application from the terminal just run:
+Your app should now be running on [localhost:5000](http://localhost:5000/).
 
-1) Run syncdb command to sync models to database and create Django's default superuser and auth system
+## Deploying to Heroku
 
-    $ python manage.py syncdb
+```sh
+$ heroku create
+$ git push heroku master
+$ heroku run python manage.py migrate
+$ heroku open
+```
 
-2) Run Django
+## Documentation
 
-    $ python manage.py runserver $IP:$PORT
-    
-## Support & Documentation
+For more information about using Python on Heroku, see these Dev Center articles:
 
-Django docs can be found at https://www.djangoproject.com/
-
-You may also want to follow the Django tutorial to create your first application:
-https://docs.djangoproject.com/en/1.7/intro/tutorial01/
-
-Visit http://docs.c9.io for support, or to learn more about using Cloud9 IDE.
-To watch some training videos, visit http://www.youtube.com/user/c9ide
+- [Python on Heroku](https://devcenter.heroku.com/categories/python)
